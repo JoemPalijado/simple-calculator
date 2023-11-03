@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<title>Simple Calculator</title>
+</head>
+<body>
+	<div class="container">
+	  <div class="calculator">
+		<div class="calculator-display">
+            <div class="top">
+                <div class="label">
+                    <i class="fa-solid fa-calculator"></i>
+                    Simple Calculator
+                </div>
+                <input type="text" id="memory" class="memory-line view" readonly>
+            </div>
+            <div class="bottom">
+                <input type="text" id="display" class="input-line view" readonly>
+                <input type="text" id="result" class="output-line view" readonly>
+            </div>
+		</div>
+        <div class="calculator-keys">
+
+        </div>
+		<div class="calculator-buttons">
+		    <button type="button" onclick="memoryPlus()" class="btn-01 base memory">
+                M+
+            </button>
+            <button type="button" onclick="memoryMinus()" class="btn-02 base memory">
+                M-
+            </button>
+            <button type="button" onclick="memoryClear()" class="btn-03 memory">
+                MC
+            </button>
+            <button type="button" onclick="convertToBinary()" class="btn-04 primary binary">
+                Binary
+            </button>
+            <button type="button" onclick="addToDisplay('9')" class="btn-05 base numbers">
+                9
+            </button>
+            <button type="button" onclick="addToDisplay('8')" class="btn-06 base numbers">
+                8
+            </button>
+            <button type="button" onclick="addToDisplay('7')" class="btn-07 base numbers">
+                7
+            </button>
+            <button type="button" onclick="addToDisplay('6')" class="btn-08 base numbers">
+                6
+            </button>
+            <button type="button" onclick="addToDisplay('5')" class="btn-09 base numbers">
+                5
+            </button>
+            <button type="button" onclick="addToDisplay('4')" class="btn-10 base numbers">
+                4
+            </button>
+            <button type="button" onclick="addToDisplay('3')" class="btn-11 base numbers">
+                3
+            </button>
+            <button type="button" onclick="addToDisplay('2')" class="btn-12 base numbers">
+                2
+            </button>
+            <button type="button" onclick="addToDisplay('1')" class="btn-13 base numbers">
+                1
+            </button>
+            <button type="button" onclick="addToDisplay('0')" class="btn-14 base numbers">
+                0
+            </button>
+            <button type="button" onclick="addDecimal()" class="btn-15 base numbers">
+                .
+            </button> 
+            <button type="button" onclick="clearDisplay()" class="btn-16 base accent clear">
+                AC
+            </button> 
+            <button type="button" onclick="deleteLastCharacter()" class="btn-17 base accent clear">
+                <i class="fa-solid fa-delete-left"></i>
+            </button> 
+            <button type="button" onclick="calculate()" class="btn-18 primary">
+                <i class="fa-solid fa-equals"></i>
+            </button> 
+            <button type="button" onclick="addToDisplay('/')" class="btn-19 base accent">
+                <i class="fa-solid fa-divide"></i>
+            </button> 
+            <button type="button" onclick="addToDisplay('*')" class="btn-20 base accent">
+                <i class="fa-solid fa-xmark"></i>
+            </button> 
+            <button type="button" onclick="addToDisplay('-')" class="btn-21 base accent">
+                <i class="fa-solid fa-minus"></i>
+            </button> 
+            <button type="button" onclick="addToDisplay('+')" class="btn-22 base accent">
+                <i class="fa-solid fa-plus"></i>
+            </button> 
+		</div>
+	  </div>
+	</div>
+
+  <script src="script.js"> </script>
+</body>
+</html>
