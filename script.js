@@ -1,7 +1,16 @@
 // Add a number or operator to the equation
 function addToDisplay(value) {
+    // Checks if any memory function has been used
+    if (memoryUsed) {
+        document.getElementById('display').value = '';
+        memoryUsed = false;
+    }
+
+    // Concatinates the entered value
     document.getElementById('display').value += value;
+    // Clears the result
     document.getElementById('result').value = '';
+    // Evaluates the input
     calculateRealTime();
 }
 
@@ -232,6 +241,7 @@ function convertToBinary() {
 
 // Default memory value
 var memory = 0;
+var memoryUsed = false;
 
 // Increments the memory with the value of the current equation
 function memoryPlus() {
@@ -244,6 +254,7 @@ function memoryPlus() {
         }
 
         if (!isNaN(result)) {
+            memoryUsed = true;
             memory += result;
             document.getElementById('memory').value = "M = " + limitTo12Digits(memory);
             document.getElementById('result').value = limitTo12Digits(memory);
@@ -273,6 +284,7 @@ function memoryMinus() {
         }
 
         if (!isNaN(result)) {
+            memoryUsed = true;
             memory -= result;
             document.getElementById('memory').value = "M = " + limitTo12Digits(memory);
             document.getElementById('result').value = limitTo12Digits(memory);
