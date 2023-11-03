@@ -254,7 +254,10 @@ function memoryPlus() {
         }
 
         if (!isNaN(result)) {
+            // Memory has been used
             memoryUsed = true;
+
+            // Increments the value of the memory
             memory += result;
             document.getElementById('memory').value = "M = " + limitTo12Digits(memory);
             document.getElementById('result').value = limitTo12Digits(memory);
@@ -284,7 +287,10 @@ function memoryMinus() {
         }
 
         if (!isNaN(result)) {
+            // Memory has been used
             memoryUsed = true;
+
+            // Decrements the value of the memory
             memory -= result;
             document.getElementById('memory').value = "M = " + limitTo12Digits(memory);
             document.getElementById('result').value = limitTo12Digits(memory);
@@ -296,4 +302,7 @@ function memoryMinus() {
 function memoryClear() {
     memory = 0;
     document.getElementById('memory').value = "";
+
+    // Memory has been used
+    memoryUsed = true;
 } 
