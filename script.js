@@ -302,7 +302,4 @@ function memoryMinus() {
 function memoryClear() {
     memory = 0;
     document.getElementById('memory').value = "";
-
-    // Memory has been used
-    memoryUsed = true;
 } 
