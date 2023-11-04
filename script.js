@@ -1,16 +1,43 @@
 // Add a number or operator to the equation
 function addToDisplay(value) {
+    var display = document.getElementById('display');
+    var lastChar = display.value.slice(-1);
+    var last2Char = display.value.slice(-2);
+
     // Checks if any memory function has been used
     if (memoryUsed) {
-        document.getElementById('display').value = '';
+        display.value = '';
         memoryUsed = false;
     }
 
-    // Concatinates the entered value
-    document.getElementById('display').value += value;
-    // Clears the result
-    document.getElementById('result').value = '';
-    // Evaluates the input
+    // Only input if the equation is less than or equal to 30
+    if (display.value.length <= 30) {
+        // Prevent entering "*" and "/" if the input field is blank
+        if (display.value.length > 0 || (value !== '*' && value !== '/')) {          
+            // Allow up to two consecutive "-" and verification of "+-"
+            if ((value === '-' && (last2Char === '--' || last2Char === '+-')) || 
+                (value === '+' && last2Char === '+-') || 
+                (display.value.length == 1 && lastChar === '-' && value == '-')) {
+                return;
+            }
+            // Check if the last input is a digit, operator, or decimal point
+            if (/\d|[+\-*/\.]/.test(lastChar) || (value === '.' && !display.value.includes('.'))) {
+                // Prevent consecutive operators
+                if (!(value === '*' && lastChar === '/') &&
+                    !(value === '/' && lastChar === '*') &&
+                    !(value === '/' && lastChar === '/') &&
+                    !(value === '*' && lastChar === '*') &&
+                    !(value === '+' && lastChar === '+') ) {
+                    display.value += value;
+                }
+            } else if ((value === '+' || value === '-') && (lastChar === '' || lastChar === ' ')) {
+                display.value += value; // Allow for negative numbers
+            } else if (value !== '.') {
+                display.value = value;
+            }
+        }    
+    }
+    
     calculateRealTime();
 }
 
@@ -61,48 +88,14 @@ function calculate() {
     var resultDisplay = document.getElementById('result');
     var result;
 
+    // Replace consecutive "-" with a single "+"
+    var equation = display.value.replace(/--/g, '+');
+
     resultDisplay.value = "";
 
     if (display.value == ''){
         display.value = '';
     } else {
-        try {
-            result = eval(display.value);
-
-            // Check if the result is a repeating decimal
-            if (result.toString().includes('.')) {
-                var parts = result.toString().split('.');
-                var decimalPart = parts[1];
-                
-                
-                // Check if the decimal part is repeating
-                if (/(\d{7,})\1/.test(decimalPart)) {
-                    decimalPart = decimalPart.substring(0, 6); // Round off to 6 decimal places
-                }
-                result = parseFloat(parts[0] + '.' + decimalPart);
-            }
-            
-            result = limitTo12Digits(result);
-            
-            display.value = result;
-        } catch (error) {
-            resultDisplay.value = "Syntax Error";
-        }
-    }
-}
-
-// Calculates the equation from the input
-function calculateRealTime() {
-    var display = document.getElementById('display');
-    var resultDisplay = document.getElementById('result');
-    var result;
-
-    var equation = display.value;
-
-    // Checks if there is an invalid syntax
-    if (/[\*\/]{2,}/.test(equation)) {
-        resultDisplay.value = "Syntax Error";
-    } else if (/\d[\+\-\*\/]\d/.test(equation)) {
         result = eval(equation);
 
         // Check if the result is a repeating decimal
@@ -117,13 +110,40 @@ function calculateRealTime() {
             }
             result = parseFloat(parts[0] + '.' + decimalPart);
         }
-
+        
         result = limitTo12Digits(result);
-
-        resultDisplay.value = result;
-    } else {
-        resultDisplay.value = "";
+        
+        display.value = result;
     }
+}
+
+// Calculates the equation from the input
+function calculateRealTime() {
+    var display = document.getElementById('display');
+    var resultDisplay = document.getElementById('result');
+    var result;
+
+    // Replace consecutive "-" with a single "+"
+    var equation = display.value.replace(/--/g, '+');
+
+    result = eval(equation);
+
+    // Check if the result is a repeating decimal
+    if (result.toString().includes('.')) {
+        var parts = result.toString().split('.');
+        var decimalPart = parts[1];
+        
+        
+        // Check if the decimal part is repeating
+        if (/(\d{7,})\1/.test(decimalPart)) {
+            decimalPart = decimalPart.substring(0, 6); // Round off to 6 decimal places
+        }
+        result = parseFloat(parts[0] + '.' + decimalPart);
+    }
+
+    result = limitTo12Digits(result);
+
+    resultDisplay.value = result;
 }
 
 // Add decimal to the equation
