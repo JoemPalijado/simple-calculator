@@ -10,6 +10,11 @@ function addToDisplay(value) {
         memoryUsed = false;
     }
 
+    // Checks if the current value is Undefined
+    if (display.value == 'Undefined') {
+        display.value = '';
+    }
+
     // Only input if the equation is less than or equal to 30
     if (display.value.length <= 30) {
         // Prevent entering "*" and "/" if the input field is blank
@@ -45,7 +50,15 @@ function addToDisplay(value) {
 function deleteLastCharacter() {
     var display = document.getElementById('display');
     var currentValue = display.value;
-    display.value = currentValue.slice(0, -1);
+
+    // Checks if the current value is Undefined
+    if (display.value == 'Undefined') {
+        display.value = '';
+    } else {
+        // Deletes the last character
+        display.value = currentValue.slice(0, -1);
+    }
+
     document.getElementById('result').value = '';
     calculateRealTime();
 }
@@ -103,7 +116,6 @@ function calculate() {
             var parts = result.toString().split('.');
             var decimalPart = parts[1];
             
-            
             // Check if the decimal part is repeating
             if (/(\d{7,})\1/.test(decimalPart)) {
                 decimalPart = decimalPart.substring(0, 6); // Round off to 6 decimal places
@@ -111,9 +123,15 @@ function calculate() {
             result = parseFloat(parts[0] + '.' + decimalPart);
         }
         
-        result = limitTo12Digits(result);
-        
-        display.value = result;
+        // Makes the result undefined when dealing with infinity
+        if (result == 'Infinity') {
+            display.value = "Undefined";
+            return;
+        } else {
+            // Limits to 12 digits/characters
+            result = limitTo12Digits(result);
+            display.value = result;
+        }
     }
 }
 
@@ -141,9 +159,14 @@ function calculateRealTime() {
         result = parseFloat(parts[0] + '.' + decimalPart);
     }
 
-    result = limitTo12Digits(result);
-
-    resultDisplay.value = result;
+    // Makes the result undefined when dealing with infinity
+    if (result == 'Infinity') {
+        resultDisplay.value = "Undefined";
+    } else {
+        // Limits to 12 digits/characters
+        result = limitTo12Digits(result);
+        resultDisplay.value = result;
+    }
 }
 
 // Add decimal to the equation
