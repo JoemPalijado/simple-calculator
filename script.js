@@ -20,7 +20,7 @@ function addToDisplay(value) {
         // Prevent entering "*" and "/" if the input field is blank
         if (display.value.length > 0 || (value !== '*' && value !== '/')) {          
             // Allow up to two consecutive "-" and verification of "+-"
-            if ((value === '-' && (last2Char === '--' || last2Char === '+-')) || 
+            if ((value === '-' && (last2Char === '--' || last2Char === '+-' || last2Char === '*-' || last2Char === '/-')) || 
                 (value === '+' && last2Char === '+-') || 
                 (display.value.length == 1 && lastChar === '-' && value == '-')) {
                 return;
@@ -28,11 +28,9 @@ function addToDisplay(value) {
             // Check if the last input is a digit, operator, or decimal point
             if (/\d|[+\-*/\.]/.test(lastChar) || (value === '.' && !display.value.includes('.'))) {
                 // Prevent consecutive operators
-                if (!(value === '*' && lastChar === '/') &&
-                    !(value === '/' && lastChar === '*') &&
-                    !(value === '/' && lastChar === '/') &&
-                    !(value === '*' && lastChar === '*') &&
-                    !(value === '+' && lastChar === '+') ) {
+                if (!(value === '*' && (lastChar === '/' || lastChar === '-' || lastChar === '+' || lastChar === '*')) &&
+                    !(value === '/' && (lastChar === '/' || lastChar === '-' || lastChar === '+' || lastChar === '*')) &&
+                    !(value === '+' && (lastChar === '-' || lastChar === '+'))) {
                     display.value += value;
                 }
             } else if ((value === '+' || value === '-') && (lastChar === '' || lastChar === ' ')) {
@@ -190,9 +188,10 @@ function addDecimal() {
 // Apply exponential form if the result exceeded 12 digits
 function formatNumber(num) {
     const numString = num.toString();
+    console.log(numString);
 
     // Checks the length of the number
-    if (numString.length <= 12) {
+    if (numString.length < 20) {
         return numString;
     } else {
         if (numString.includes('e')) {
